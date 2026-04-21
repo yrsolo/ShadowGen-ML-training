@@ -40,9 +40,9 @@ wandb/
 mlruns/
 
 # Data
-data/
-datasets/
-external/
+/data/
+/datasets/
+/external/
 
 # Model artifacts and weights
 checkpoints/

@@ -9,6 +9,12 @@ from typing import Any
 
 import yaml
 
+from shadowgen_training.data.shadow_pair_manifest import (
+    DEFAULT_DATASET_VERSION,
+    build_shadow_pair_manifest,
+)
+from shadowgen_training.toy.pixel_baseline import train_toy_pixel_baseline
+
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
 DEFAULT_DATASET_ROOT = r"\\riper\datasets\3D\final_objaverse_v1"
@@ -182,6 +188,56 @@ def command_validate_config(args: argparse.Namespace) -> int:
     return 0
 
 
+def command_build_manifest(args: argparse.Namespace) -> int:
+    root = Path(args.root or os.environ.get("SHADOWGEN_DATASET_ROOT", DEFAULT_DATASET_ROOT))
+    output = Path(args.output)
+    summary_output = Path(args.summary) if args.summary else None
+    result = build_shadow_pair_manifest(
+        root=root,
+        output=output,
+        summary_output=summary_output,
+        dataset_version=args.dataset_version,
+        limit=args.limit,
+    )
+    print(f"dataset_version: {result.dataset_version}")
+    print(f"source_manifest: {result.source_manifest}")
+    print(f"output: {result.output}")
+    if result.summary_output is not None:
+        print(f"summary: {result.summary_output}")
+    print(f"records_seen: {result.total_records}")
+    print(f"records_written: {result.written_records}")
+    print(f"skipped_not_ok: {result.skipped_not_ok}")
+    print(f"skipped_missing_paths: {result.skipped_missing_paths}")
+    print(f"split_counts: {result.split_counts}")
+    return 0
+
+
+def command_train_toy(args: argparse.Namespace) -> int:
+    root = Path(args.root or os.environ.get("SHADOWGEN_DATASET_ROOT", DEFAULT_DATASET_ROOT))
+    result = train_toy_pixel_baseline(
+        dataset_root=root,
+        manifest=Path(args.manifest),
+        output_dir=Path(args.output_dir),
+        split=args.split,
+        max_samples=args.max_samples,
+        size=args.size,
+        pixels_per_sample=args.pixels_per_sample,
+        steps=args.steps,
+        learning_rate=args.learning_rate,
+        seed=args.seed,
+        wandb_mode=args.wandb_mode,
+        wandb_project=args.wandb_project,
+    )
+    print(f"toy_baseline: {result.output_dir}")
+    print(f"metrics: {result.metrics_path}")
+    print(f"weights: {result.weights_path}")
+    print(f"samples: {result.samples}")
+    print(f"steps: {result.steps}")
+    print(f"initial_loss: {result.initial_loss:.8f}")
+    print(f"final_loss: {result.final_loss:.8f}")
+    return 0
+
+
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(prog="shadowgen-training")
     subparsers = parser.add_subparsers(dest="command", required=True)
@@ -202,6 +258,65 @@ def build_parser() -> argparse.ArgumentParser:
     )
     validate_config.add_argument("config", help="Path to YAML config.")
     validate_config.set_defaults(func=command_validate_config)
+
+    build_manifest = subparsers.add_parser(
+        "build-manifest",
+        help="Build the text-only shadow_pair_v1 JSONL manifest.",
+    )
+    build_manifest.add_argument("--root", default=None, help="Dataset root path.")
+    build_manifest.add_argument(
+        "--output",
+        default="manifests/shadow_pair_v1.jsonl",
+        help="Output JSONL manifest path.",
+    )
+    build_manifest.add_argument(
+        "--summary",
+        default="manifests/shadow_pair_v1.summary.json",
+        help="Output summary JSON path.",
+    )
+    build_manifest.add_argument(
+        "--dataset-version",
+        default=DEFAULT_DATASET_VERSION,
+        help="Dataset version name to write into records.",
+    )
+    build_manifest.add_argument(
+        "--limit",
+        type=int,
+        default=None,
+        help="Optional record limit for debugging.",
+    )
+    build_manifest.set_defaults(func=command_build_manifest)
+
+    train_toy = subparsers.add_parser(
+        "train-toy",
+        help="Run a small masked pixel baseline to smoke-test the pipeline.",
+    )
+    train_toy.add_argument("--root", default=None, help="Dataset root path.")
+    train_toy.add_argument(
+        "--manifest",
+        default="manifests/shadow_pair_v1.jsonl",
+        help="JSONL manifest path.",
+    )
+    train_toy.add_argument(
+        "--output-dir",
+        default="outputs/toy_pixel_overfit",
+        help="Ignored output directory for toy metrics and weights.",
+    )
+    train_toy.add_argument("--split", default="train", choices=["train", "val", "test"])
+    train_toy.add_argument("--max-samples", type=int, default=8)
+    train_toy.add_argument("--size", type=int, default=128)
+    train_toy.add_argument("--pixels-per-sample", type=int, default=4096)
+    train_toy.add_argument("--steps", type=int, default=200)
+    train_toy.add_argument("--learning-rate", type=float, default=0.05)
+    train_toy.add_argument("--seed", type=int, default=7)
+    train_toy.add_argument(
+        "--wandb-mode",
+        default="disabled",
+        choices=["disabled", "offline", "online"],
+        help="W&B mode for toy logging.",
+    )
+    train_toy.add_argument("--wandb-project", default="shadowgen-training")
+    train_toy.set_defaults(func=command_train_toy)
 
     return parser
 

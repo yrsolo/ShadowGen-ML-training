@@ -1,0 +1,19 @@
+{
+  "dataset_version": "shadow_pair_v1",
+  "output": "manifests/shadow_pair_v1.jsonl",
+  "skipped_missing_paths": 92,
+  "skipped_not_ok": 0,
+  "source_manifest": "\\\\riper\\datasets\\3D\\final_objaverse_v1\\manifest.json",
+  "split_counts": {
+    "test": 965,
+    "train": 7920,
+    "val": 912
+  },
+  "target_policy": {
+    "inside_object_mask_policy": "ignored",
+    "kind": "shadow_layer",
+    "loss_region": "outside_object_mask"
+  },
+  "total_records_seen": 9889,
+  "written_records": 9797
+}

@@ -30,6 +30,8 @@ $env:SHADOWGEN_DATASET_ROOT="\\riper\datasets\3D\final_objaverse_v1"
 uv run shadowgen-training doctor
 uv run shadowgen-training inspect-dataset --root "\\riper\datasets\3D\final_objaverse_v1"
 uv run shadowgen-training validate-config configs/project.yaml
+uv run shadowgen-training build-manifest --root "\\riper\datasets\3D\final_objaverse_v1"
+uv run shadowgen-training train-toy --max-samples 4 --size 64 --steps 30 --wandb-mode disabled
 uv run pytest -q
 ```
 
@@ -52,6 +54,7 @@ pipeline before serious backbone work.
 - Dataset notes: `docs/dataset.md`
 - Local setup: `docs/runbooks/local-setup.md`
 - Next model step: `docs/runbooks/next-model-step.md`
+- Toy baseline: `docs/runbooks/toy-baseline.md`
 - Captured discussions: `docs/discussions/`
 
 ## GitHub Policy
