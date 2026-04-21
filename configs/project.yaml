@@ -8,10 +8,29 @@ data:
   default_dataset_root: "\\\\riper\\datasets"
   copy_raw_data_into_repo: false
   git_tracked_data: false
+  available_ground_truth:
+    - composite_with_shadow
+    - object_mask
+  target_extraction:
+    initial_policy: non_object_pixels_from_composite
+    requires_validation: true
+  versioning:
+    selected_tool: dvc
+    initialized: false
+    first_scope: processed_dataset_version
 
 model:
   family: unselected
   architecture: unselected
+  product_direction: large_pretrained_diffusion_adaptation
+  toy_baseline_allowed_for_pipeline_smoke: true
+  hardware_targets:
+    train_vram_gb: 24
+    inference_vram_gb: 11
+  output_policy:
+    product_output: composite_preview_with_original_object_overlay
+    contract_output: shadow_layer
+    contract_note: current service contract still expects shadow tensor
   candidates:
     - diffusion_backbone
     - lora
@@ -34,6 +53,7 @@ model:
       shadow: [N, 4, H, W]
 
 tracking:
+  preferred: wandb
   wandb_enabled: false
   mlflow_enabled: false
   dvc_remote_configured: false

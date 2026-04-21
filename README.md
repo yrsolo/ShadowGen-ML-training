@@ -45,6 +45,10 @@ contract and candidates without hard-coding a training pipeline.
 - Model contract snapshot: `docs/contracts/shadow-v2-model-contract.md`
 - Repository scope: `docs/repo-scope.md`
 - Artifact policy: `docs/artifact-policy.md`
+- Model direction: `docs/decisions/model-direction.md`
+- Training stack: `docs/decisions/training-stack.md`
+- Data versioning: `docs/decisions/data-versioning.md`
+- Open questions: `docs/decisions/open-questions.md`
 - Local setup: `docs/runbooks/local-setup.md`
 - Next model step: `docs/runbooks/next-model-step.md`
 - Captured discussions: `docs/discussions/`
