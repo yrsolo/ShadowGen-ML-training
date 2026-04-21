@@ -1,0 +1,91 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.coverage
+htmlcov/
+
+# Environments
+.venv/
+venv/
+env/
+.env
+
+# Local/editor
+.idea/
+.vscode/
+*.swp
+*.swo
+Thumbs.db
+Desktop.ini
+
+# Playwright/local automation artifacts
+.playwright-cli/
+playwright-report/
+test-results/
+
+# Outputs and experiment artifacts
+outputs/
+output/
+runs/
+multirun/
+artifacts/
+logs/
+tmp/
+temp/
+wandb/
+mlruns/
+
+# Data
+data/
+datasets/
+external/
+
+# Model artifacts and weights
+checkpoints/
+weights/
+models/local/
+*.pt
+*.pth
+*.ckpt
+*.safetensors
+*.bin
+*.onnx
+*.engine
+*.plan
+*.trt
+
+# Arrays and generated numeric data
+*.npy
+*.npz
+*.parquet
+*.arrow
+*.h5
+*.hdf5
+
+# Images, video, audio
+*.png
+*.jpg
+*.jpeg
+*.webp
+*.gif
+*.bmp
+*.tif
+*.tiff
+*.mp4
+*.mov
+*.avi
+*.mkv
+*.wav
+*.mp3
+
+# Archives
+*.zip
+*.7z
+*.tar
+*.tar.gz
+*.tgz
+*.rar

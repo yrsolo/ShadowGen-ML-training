@@ -1,0 +1,50 @@
+project:
+  name: ShadowGen-ML-training
+  responsibility: training
+  contract_variant: v2-diff
+
+data:
+  dataset_root_env: SHADOWGEN_DATASET_ROOT
+  default_dataset_root: "\\\\riper\\datasets"
+  copy_raw_data_into_repo: false
+  git_tracked_data: false
+
+model:
+  family: unselected
+  architecture: unselected
+  candidates:
+    - diffusion_backbone
+    - lora
+    - controlnet
+    - control_lora_hybrid
+  contract:
+    stage_key: shadow_generator
+    model_variant: v2-diff
+    recommended_size: [512, 512]
+    input_tensors:
+      img: [N, 4, H, W]
+      mask: [N, 1, H, W]
+      depth: [N, 1, H, W]
+      normal: [N, 3, H, W]
+      angle: [N]
+      elevation: [N]
+      softness: [N]
+      reflection: [N]
+    output_tensors:
+      shadow: [N, 4, H, W]
+
+tracking:
+  wandb_enabled: false
+  mlflow_enabled: false
+  dvc_remote_configured: false
+
+artifacts:
+  commit_large_artifacts_to_git: false
+  ignored_roots:
+    - data/
+    - datasets/
+    - outputs/
+    - runs/
+    - checkpoints/
+    - wandb/
+    - mlruns/
