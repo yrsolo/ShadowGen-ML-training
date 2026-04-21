@@ -55,11 +55,10 @@ Recommended sequence:
 1. Dataset inspection and manifest.
 2. Shadow target extraction prototype from composite plus object mask.
 3. Fixed qualitative validation panel.
-4. Toy/small overfit smoke if needed to prove the pipeline.
-5. Large pretrained model adaptation baseline.
+4. Toy/small overfit smoke to prove the pipeline.
+5. Stable Diffusion 1.5 adaptation baseline.
 
-The toy model can be skipped only if the dataset format is already clean enough
-to start safely with a large pretrained model.
+The toy model is intentionally a pipeline test, not the product model.
 
 ## Validation Focus
 

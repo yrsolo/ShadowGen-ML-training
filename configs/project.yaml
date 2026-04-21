@@ -5,7 +5,8 @@ project:
 
 data:
   dataset_root_env: SHADOWGEN_DATASET_ROOT
-  default_dataset_root: "\\\\riper\\datasets"
+  default_dataset_root: "\\\\riper\\datasets\\3D\\final_objaverse_v1"
+  selected_dataset: final_objaverse_v1
   copy_raw_data_into_repo: false
   git_tracked_data: false
   available_ground_truth:
@@ -18,20 +19,23 @@ data:
     selected_tool: dvc
     initialized: false
     first_scope: processed_dataset_version
+    s3_remote_now: false
 
 model:
-  family: unselected
-  architecture: unselected
+  family: stable_diffusion
+  architecture: sd1.5
   product_direction: large_pretrained_diffusion_adaptation
-  toy_baseline_allowed_for_pipeline_smoke: true
+  toy_baseline_required_for_pipeline_smoke: true
   hardware_targets:
     train_vram_gb: 24
     inference_vram_gb: 11
   output_policy:
-    product_output: composite_preview_with_original_object_overlay
-    contract_output: shadow_layer
-    contract_note: current service contract still expects shadow tensor
+    model_output: shadow_layer
+    object_mask_region_policy: ignored_for_shadow_quality
+    product_composition: overlay_original_object_on_model_output
+    contract_note: model output is treated as shadow_layer; pixels inside object mask are not important because the original object is overlaid later
   candidates:
+    - stable_diffusion_1_5
     - diffusion_backbone
     - lora
     - controlnet

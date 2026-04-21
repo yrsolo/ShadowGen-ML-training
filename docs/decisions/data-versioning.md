@@ -1,6 +1,6 @@
 # Data Versioning
 
-Status: DVC selected, rollout pending dataset inspection.
+Status: DVC selected, no S3 remote for now.
 
 Source context:
 
@@ -12,10 +12,10 @@ Source context:
 Use DVC for dataset versioning, but do not blindly version the entire raw NAS
 share as the first step.
 
-Current data root:
+Current dataset root:
 
 ```text
-\\riper\datasets
+\\riper\datasets\3D\final_objaverse_v1
 ```
 
 Raw data remains outside GitHub.
@@ -43,7 +43,7 @@ So the first DVC step should be deliberate and narrow.
    - the processed dataset directory, if file count is reasonable, or
    - sharded archives plus a manifest, if file count is very high.
 5. Commit only DVC metadata and text manifests to Git.
-6. Store actual data in a DVC remote chosen later.
+6. Store actual data in a local/NAS DVC remote first.
 
 ## Practical Rule
 
@@ -51,13 +51,11 @@ For the first phase:
 
 - track manifests and processed dataset versions,
 - do not DVC-track the whole `\\riper\datasets` root,
+- do not push the dataset to S3 yet,
 - do not commit images or masks directly to Git,
 - keep every dataset version reproducible from a manifest.
 
-## Open Decision
+## Remote Decision
 
-Pick the DVC remote after dataset inspection:
-
-- local/NAS DVC remote for fastest Windows workflow,
-- S3-compatible remote for portfolio/portable reproducibility,
-- or both later.
+Use a local/NAS DVC remote for the first version. Revisit S3 only after the data
+pipeline and dataset boundaries are stable.

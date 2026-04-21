@@ -11,7 +11,7 @@ import yaml
 
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
-DEFAULT_DATASET_ROOT = r"\\riper\datasets"
+DEFAULT_DATASET_ROOT = r"\\riper\datasets\3D\final_objaverse_v1"
 
 REQUIRED_DIRS = (
     "configs",
@@ -92,13 +92,15 @@ def _validate_project_config(data: dict[str, Any]) -> list[str]:
     if not isinstance(model, dict):
         errors.append("missing mapping: model")
     else:
-        if model.get("family") != "unselected":
-            errors.append("model.family must stay unselected in the scaffold")
-        if model.get("architecture") != "unselected":
-            errors.append("model.architecture must stay unselected in the scaffold")
+        if model.get("family") != "stable_diffusion":
+            errors.append("model.family must be stable_diffusion")
+        if model.get("architecture") != "sd1.5":
+            errors.append("model.architecture must be sd1.5")
+        if model.get("toy_baseline_required_for_pipeline_smoke") is not True:
+            errors.append("model.toy_baseline_required_for_pipeline_smoke must be true")
         candidates = model.get("candidates")
-        if not isinstance(candidates, list) or "controlnet" not in candidates:
-            errors.append("model.candidates must include controlnet")
+        if not isinstance(candidates, list) or "stable_diffusion_1_5" not in candidates:
+            errors.append("model.candidates must include stable_diffusion_1_5")
         contract = model.get("contract")
         if not isinstance(contract, dict):
             errors.append("missing mapping: model.contract")

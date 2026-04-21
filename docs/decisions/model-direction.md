@@ -27,21 +27,23 @@ where the original object can be composited back on top for visual precision.
 The preferred product direction is adaptation of a large pretrained diffusion
 model, not training only a small model from scratch.
 
-Candidate families from the discussions:
+First serious backbone:
 
-- FLUX-like diffusion with LoRA and image/mask conditioning.
-- SD3-like diffusion with ControlNet-style conditioning.
+- Stable Diffusion 1.5.
+
+Candidate adaptation methods:
+
+- LoRA.
+- ControlNet-style conditioning.
 - Control-LoRA hybrid.
-- SANA-like efficient diffusion only as an experimental candidate, not the safest
-  first choice.
 
-The repository should not hard-code a specific backbone until the dataset and
-evaluation loop are validated.
+Other families from the discussion, such as FLUX-like, SD3-like, or SANA-like
+models, remain future candidates rather than the first serious backbone.
 
 ## Baseline Policy
 
-Use a toy or small conditional diffusion baseline only if it helps test the
-training pipeline quickly:
+Use a toy or small conditional diffusion baseline before the serious SD1.5 work
+to test the training pipeline quickly:
 
 - data loading,
 - target extraction,
@@ -51,27 +53,22 @@ training pipeline quickly:
 - reproducible configs.
 
 This toy baseline is not the intended product baseline. The intended product
-baseline remains a large pretrained diffusion model adapted with LoRA,
-ControlNet-style conditioning, or a hybrid approach.
+baseline is SD1.5 adapted with LoRA, ControlNet-style conditioning, or a hybrid
+approach.
 
 ## Output Policy
 
-Product-facing inference should produce a ready image with a realistic shadow,
-then composite the original object on top for exact object fidelity.
+The model output is treated as `shadow_layer`. Pixels inside the object mask are
+not important for shadow quality because inference will place the original object
+on top.
 
-Important contract note:
+Practical evaluation note:
 
-- The current `shadow-v2` service contract still defines the model output as a
-  standalone RGBA `shadow` tensor.
-- Until that contract is changed, training/evaluation may create ready composite
-  previews, but export must either produce the `shadow` tensor or document an
-  approved contract deviation.
-
-Practical next step:
-
-- Keep both targets in the pipeline vocabulary:
-  - `shadow_layer`: model-contract-compatible output.
-  - `composite_preview`: white-background object-plus-shadow image for visual QA.
+- `shadow_layer`: model output and contract-compatible tensor.
+- `composite_preview`: visual QA image made by overlaying the original object on
+  the model output.
+- Losses and metrics should focus on the non-object region unless a later model
+  explicitly learns useful content under the mask.
 
 ## Initial Data Assumption
 
@@ -79,6 +76,12 @@ Available data currently includes:
 
 - ready composite image with shadow,
 - object mask.
+
+Current dataset path:
+
+```text
+\\riper\datasets\3D\final_objaverse_v1
+```
 
 Shadow target can be derived by treating everything outside the object mask as
 shadow/background signal. This must be validated carefully because the target may

@@ -21,10 +21,10 @@ This repository is public and text-only.
 
 ## Current External Data Root
 
-The current Windows dataset location is:
+The current Windows dataset location for this training effort is:
 
 ```text
-\\riper\datasets
+\\riper\datasets\3D\final_objaverse_v1
 ```
 
 The path may be referenced in docs and configs, but the data itself must remain

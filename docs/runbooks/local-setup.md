@@ -8,16 +8,16 @@ This repository is prepared for Windows development.
 - Python `>=3.12`.
 - `uv`.
 - Git.
-- Access to `\\riper\datasets`.
+- Access to `\\riper\datasets\3D\final_objaverse_v1`.
 
 ## Setup
 
 ```powershell
 cd N:\PROJECTS\ML\ShadowGen-ML-core\ShadowGen-ML-training
 uv sync
-$env:SHADOWGEN_DATASET_ROOT="\\riper\datasets"
+$env:SHADOWGEN_DATASET_ROOT="\\riper\datasets\3D\final_objaverse_v1"
 uv run shadowgen-training doctor
-uv run shadowgen-training inspect-dataset --root "\\riper\datasets"
+uv run shadowgen-training inspect-dataset --root "\\riper\datasets\3D\final_objaverse_v1"
 uv run shadowgen-training validate-config configs/project.yaml
 uv run pytest -q
 ```

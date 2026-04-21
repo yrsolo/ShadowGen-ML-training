@@ -26,19 +26,19 @@ live in sibling repositories.
 
 ```powershell
 uv sync
-$env:SHADOWGEN_DATASET_ROOT="\\riper\datasets"
+$env:SHADOWGEN_DATASET_ROOT="\\riper\datasets\3D\final_objaverse_v1"
 uv run shadowgen-training doctor
-uv run shadowgen-training inspect-dataset --root "\\riper\datasets"
+uv run shadowgen-training inspect-dataset --root "\\riper\datasets\3D\final_objaverse_v1"
 uv run shadowgen-training validate-config configs/project.yaml
 uv run pytest -q
 ```
 
 ## Current Model Status
 
-The first production model is expected to be diffusion-based and may use LoRA,
-ControlNet, or a hybrid conditioning approach. The exact architecture is not
-selected in this repository scaffold. Configuration intentionally records the
-contract and candidates without hard-coding a training pipeline.
+The first serious backbone is Stable Diffusion 1.5 adapted for the ShadowGen
+task. LoRA, ControlNet-style conditioning, and a Control-LoRA hybrid remain the
+main adaptation candidates. A toy baseline is required first to validate the
+pipeline before serious backbone work.
 
 ## Important Paths
 
@@ -49,6 +49,7 @@ contract and candidates without hard-coding a training pipeline.
 - Training stack: `docs/decisions/training-stack.md`
 - Data versioning: `docs/decisions/data-versioning.md`
 - Open questions: `docs/decisions/open-questions.md`
+- Dataset notes: `docs/dataset.md`
 - Local setup: `docs/runbooks/local-setup.md`
 - Next model step: `docs/runbooks/next-model-step.md`
 - Captured discussions: `docs/discussions/`
