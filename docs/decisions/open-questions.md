@@ -15,6 +15,8 @@ Status: active questions before model training implementation.
 
 - Is the first product baseline LoRA-only, ControlNet-style, or Control-LoRA?
 - What is the minimum acceptable inference quality at the 11 GB target?
+- What threshold means direction fidelity is bad enough to add a v2 coarse
+  projected-shadow prior?
 
 ## Data Versioning
 

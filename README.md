@@ -48,6 +48,7 @@ pipeline before serious backbone work.
 - Repository scope: `docs/repo-scope.md`
 - Artifact policy: `docs/artifact-policy.md`
 - Model direction: `docs/decisions/model-direction.md`
+- Shadow prior strategy: `docs/decisions/shadow-prior-strategy.md`
 - Training stack: `docs/decisions/training-stack.md`
 - Data versioning: `docs/decisions/data-versioning.md`
 - Open questions: `docs/decisions/open-questions.md`

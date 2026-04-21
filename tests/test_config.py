@@ -17,3 +17,7 @@ def test_first_serious_backbone_is_sd15() -> None:
     assert config["model"]["family"] == "stable_diffusion"
     assert config["model"]["architecture"] == "sd1.5"
     assert config["model"]["toy_baseline_required_for_pipeline_smoke"] is True
+    assert config["model"]["training_strategy"]["v1_prediction"] == (
+        "end_to_end_shadow_layer"
+    )
+    assert config["model"]["training_strategy"]["separate_prior_model_v1"] is False

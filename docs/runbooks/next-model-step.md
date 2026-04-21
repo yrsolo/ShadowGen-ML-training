@@ -5,6 +5,7 @@ The next implementation phase is dataset inspection and first experiment design.
 See also:
 
 - `docs/decisions/model-direction.md`
+- `docs/decisions/shadow-prior-strategy.md`
 - `docs/decisions/training-stack.md`
 - `docs/decisions/data-versioning.md`
 - `docs/decisions/open-questions.md`
@@ -24,6 +25,8 @@ See also:
 - The model output is treated as `shadow_layer`. Pixels inside the object mask
   are not important for shadow quality because the original object is overlaid
   later.
+- First serious model strategy: end-to-end shadow-layer prediction; no separate
+  prior model in v1.
 
 ## Contract Constraint
 
@@ -41,4 +44,5 @@ inside the object mask are imperfect.
 3. Prototype shadow target extraction from composite plus object mask.
 4. Create a fixed qualitative validation panel.
 5. Implement a toy overfit baseline to validate data, W&B, and evaluation.
-6. Initialize DVC only after the first dataset version boundary is known.
+6. Add evaluation checks for direction, extent, contact shadow, and softness.
+7. Initialize DVC only after the first dataset version boundary is known.

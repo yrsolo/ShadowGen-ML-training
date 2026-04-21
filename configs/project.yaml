@@ -34,6 +34,19 @@ model:
     object_mask_region_policy: ignored_for_shadow_quality
     product_composition: overlay_original_object_on_model_output
     contract_note: model output is treated as shadow_layer; pixels inside object mask are not important because the original object is overlaid later
+  training_strategy:
+    v1_prediction: end_to_end_shadow_layer
+    separate_prior_model_v1: false
+    coarse_projected_shadow_prior: deferred_v2_if_direction_fidelity_fails
+    conditioning:
+      object_image: true
+      mask: true
+      depth: optional_rendered_or_estimated
+      normal: optional_rendered_or_estimated
+      angle: true
+      elevation: true
+      softness: true
+      reflection: fixed_zero_initially
   candidates:
     - stable_diffusion_1_5
     - diffusion_backbone

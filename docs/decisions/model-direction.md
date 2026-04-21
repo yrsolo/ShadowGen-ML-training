@@ -56,6 +56,17 @@ This toy baseline is not the intended product baseline. The intended product
 baseline is SD1.5 adapted with LoRA, ControlNet-style conditioning, or a hybrid
 approach.
 
+## Prediction Strategy
+
+The first serious model predicts the `shadow_layer` end-to-end. It should use
+conditioning signals directly instead of relying on a separate shadow-direction
+prior model.
+
+Deferred option:
+
+- Add a coarse projected-shadow control map in v2 only if direction fidelity or
+  contact placement is weak.
+
 ## Output Policy
 
 The model output is treated as `shadow_layer`. Pixels inside the object mask are
